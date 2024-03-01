@@ -21,3 +21,9 @@ variable "subnet_id2" {
   default     = "subnet-0d1104e1037af6b4f"
 }
 
+variable "vpc_id" {
+  description = "ID of the existing VPC"
+  type        = string
+  default     = "vpc-00c38da1bd64f5f78"
+}
+
