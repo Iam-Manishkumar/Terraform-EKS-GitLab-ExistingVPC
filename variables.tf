@@ -33,4 +33,8 @@ variable "sg-tag-name" {
   default     = "eks"
 }
 
-
+variable "instance-key-name" {
+  description = "The name of the key to associate to the instance."
+  type        = string
+  default     = "Dev-Key"
+}
