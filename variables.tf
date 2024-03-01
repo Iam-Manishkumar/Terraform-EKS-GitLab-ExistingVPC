@@ -27,3 +27,10 @@ variable "vpc_id" {
   default     = "vpc-00c38da1bd64f5f78"
 }
 
+variable "sg-tag-name" {
+  description = "The Name to apply to the security group"
+  type        = string
+  default     = "eks"
+}
+
+
