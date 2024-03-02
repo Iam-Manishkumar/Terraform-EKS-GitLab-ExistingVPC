@@ -102,3 +102,74 @@ resource "aws_iam_instance_profile" "worker" {
   role       = aws_iam_role.worker.name
 }
 
+###############################################################################################################
+resource "aws_eks_cluster" "eks" {
+  name = var.cluster_name
+  role_arn = aws_iam_role.master.arn
+  
+  vpc_config {
+    subnet_ids = [var.subnet_id1,var.subnet_id2]
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSClusterPolicy,
+    aws_iam_role_policy_attachment.AmazonEKSServicePolicy,
+    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController,
+    aws_iam_role_policy_attachment.AmazonEKSVPCResourceController,
+    #aws_subnet.pub_sub1,
+    #aws_subnet.pub_sub2,
+  ]
+
+}
+#################################################################################################################
+resource "aws_key_pair" "instance-key-name" {
+  key_name   = var.instance-key-name
+  public_key = tls_private_key.rsa.public_key_openssh
+}
+
+# RSA key of size 4096 bits
+resource "tls_private_key" "rsa" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "local_file" "TF-key" {
+  content  = tls_private_key.rsa.private_key_pem
+  filename = "Dev-Key.pem"
+}
+
+resource "aws_eks_node_group" "backend" {
+  cluster_name    = aws_eks_cluster.eks.name
+  node_group_name = "dev"
+  node_role_arn   = aws_iam_role.worker.arn
+  subnet_ids = [var.subnet_id1, var.subnet_id2]
+  capacity_type = "ON_DEMAND"
+  disk_size = "10"
+  instance_types = ["t2.small"]
+  remote_access {
+    ec2_ssh_key                  = var.instance-key-name
+    source_security_group_ids = ["${aws_security_group.sg.id}"]
+  } 
+  
+  labels =  tomap({env = "dev"})
+  
+  scaling_config {
+    desired_size = 2
+    max_size     = 3
+    min_size     = 1
+  }
+
+  update_config {
+    max_unavailable = 1
+  }
+
+  depends_on = [
+    aws_iam_role_policy_attachment.AmazonEKSWorkerNodePolicy,
+    aws_iam_role_policy_attachment.AmazonEKS_CNI_Policy,
+    aws_iam_role_policy_attachment.AmazonEC2ContainerRegistryReadOnly,
+    #aws_subnet.pub_sub1,
+    #aws_subnet.pub_sub2,
+  ]
+
+}
+
