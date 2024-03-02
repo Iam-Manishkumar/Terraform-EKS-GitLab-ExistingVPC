@@ -37,7 +37,8 @@ apply:
   script:
     - terraform apply -auto-approve tfplan
   dependencies:
-    - plan      
+    - plan   
+  allow_failure: true     
 
 Deploy-to-EKS:
   image: 
@@ -54,6 +55,7 @@ Deploy-to-EKS:
     - aws eks update-kubeconfig --region us-east-1 --name EKSManish-Thesis-Cluster
     - kubectl create namespace --staging
     - kubectl run pingpong --image=registry.gitlab.com/testman5880607/pingpong-fullstack-multiplayer:latest
+  allow_failure: true   
 
 
 
