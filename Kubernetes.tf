@@ -173,3 +173,21 @@ resource "aws_eks_node_group" "backend" {
 
 }
 
+resource "aws_security_group" "sg" {
+  name   = var.sg-tag-name
+  vpc_id = var.vpc_id
+
+  ingress = [
+    for port in [9000] : {
+      description      = "inbound rules"
+      from_port        = port
+      to_port          = port
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
+      ipv6_cidr_blocks = []
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
+    }
+  ]
+}
