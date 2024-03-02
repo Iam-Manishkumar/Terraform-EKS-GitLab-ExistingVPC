@@ -1,3 +1,13 @@
+
+
+
+
+image:
+  name: hashicorp/terraform:light
+  entrypoint:
+    - '/usr/bin/env'
+    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
 stages:
   - validate
   - plan
@@ -10,11 +20,6 @@ variables:
   TF_DIR: ${CI_PROJECT_DIR}       # Directory in which terraform files are kept
   TF_STATE_NAME: "default"         # Name of terraform state used in "terraform init"command
 
-image:
-  name: hashicorp/terraform:light
-  entrypoint:
-    - '/usr/bin/env'
-    - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 before_script:
   - terraform --version
   - export GITLAB_ACCESS_TOKEN=$TOKEN
