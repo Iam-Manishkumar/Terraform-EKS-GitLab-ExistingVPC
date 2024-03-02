@@ -11,6 +11,13 @@ image:
   entrypoint:
     - '/usr/bin/env'
     - 'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+# List of variables
+variables:
+  TF_DIR: ${CI_PROJECT_DIR}       # Directory in which terraform files are kept
+  STATE_NAME: "tf_state"          # Name of terraform state used in "terraform init"command
+  ADDRESS: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${STATE_NAME}"
+      
 before_script:
   - export AWS_ACCESS_KEY=${AWS_ACCESS_KEY_ID}
   - export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
