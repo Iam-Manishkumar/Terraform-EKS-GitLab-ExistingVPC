@@ -38,14 +38,11 @@ plan:
   stage: plan
   script:
     - terraform plan -lock=false
-  artifacts:
-    paths:
-      - tfplan
 
 apply:
   stage: apply
   script:
-    - terraform apply -auto-approve
+    - terraform apply -auto-approve -lock=false
   dependencies:
     - plan      
 
@@ -70,7 +67,7 @@ Deploy-to-EKS:
 destroy:
   stage: destroy
   script:
-    - terraform destroy -auto-approve
+    - terraform destroy -auto-approve -lock=false
   when: always
   dependencies: 
     - apply
