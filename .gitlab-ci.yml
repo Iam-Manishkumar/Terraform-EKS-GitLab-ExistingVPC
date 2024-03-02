@@ -3,6 +3,7 @@ stages:
   - plan
   - apply
   - configure
+  - destroy
 
 
 image:
@@ -53,3 +54,14 @@ Deploy-to-EKS:
     - aws eks update-kubeconfig --region us-east-1 --name EKSManish-Thesis-Cluster
     - kubectl create namespace --staging
     - kubectl run pingpong --image=registry.gitlab.com/testman5880607/pingpong-fullstack-multiplayer:latest
+
+
+
+destroy:
+  stage: destroy
+  script:
+    - terraform init 
+    - terraform destroy -auto-approve
+  when: manual
+  dependencies: 
+    - apply
