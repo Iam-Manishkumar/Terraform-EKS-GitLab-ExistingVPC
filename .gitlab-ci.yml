@@ -13,10 +13,6 @@ stages:
   - configure
   - destroy
 
-variables:
-  - TF_DIR: ${CI_PROJECT_DIR}       # Directory in which terraform files are kept
-  - TF_ADDRESS: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/eks"
-
 
 before_script:
 
