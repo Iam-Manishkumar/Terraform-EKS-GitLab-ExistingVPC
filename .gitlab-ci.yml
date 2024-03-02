@@ -19,6 +19,41 @@ before_script:
   - terraform fmt
   - terraform init
 
+validate:
+  stage: validate
+  script:
+    - terraform validate
+
+plan:
+  stage: plan
+  script:
+    - terraform plan -out=tfplan
+  artifacts:
+    paths:
+      - tfplan
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve tfplan
+  dependencies:
+    - plan      
+
+Deploy-to-EKS:
+  image: 
+    name: alpine/helm:3.12.3
+    entrypoint: [""]
+  stage: configure
+  before_script:
+    - apk add --no-cache curl python3 py3-pip
+    - pip3 install awscli
+    - apk update && apk add curl git
+    - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.15.1/bin/linux/amd64/kubectl
+    - chmod u+x kubectl && mv kubectl /bin/kubectl
+  script:
+    - aws eks update-kubeconfig --region us-east-1 --name EKSManish-Thesis-Cluster
+    - kubectl create namespace --staging
+    - kubectl run pingpong --image=registry.gitlab.com/testman5880607/pingpong-fullstack-multiplayer:latest
 
 
 
@@ -28,3 +63,5 @@ destroy:
     - terraform init 
     - terraform destroy -auto-approve
   when: manual
+  dependencies: 
+    - apply
