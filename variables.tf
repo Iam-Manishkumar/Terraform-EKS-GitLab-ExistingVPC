@@ -1,7 +1,7 @@
 variable "aws-region" {
   description = "The AWS region"
   type        = string
-  default     = "eu-west-1"
+  default     = "us-east-1"
 }
 
 /*variable "aws-profile" {
@@ -12,19 +12,19 @@ variable "aws-region" {
 variable "subnet_id1" {
   description = "ID of the existing subnet"
   type        = string
-  default     = "subnet-010cf1202660fcdb4"
+  default     = "subnet-049602c92eb94d563"
 }
 
 variable "subnet_id2" {
   description = "ID of the existing subnet"
   type        = string
-  default     = "subnet-0d1104e1037af6b4f"
+  default     = "subnet-0d30efbba75419c9e"
 }
 
 variable "vpc_id" {
   description = "ID of the existing VPC"
   type        = string
-  default     = "vpc-00c38da1bd64f5f78"
+  default     = "vpc-0f20e0ed569288a27"
 }
 
 variable "cluster_name" {
