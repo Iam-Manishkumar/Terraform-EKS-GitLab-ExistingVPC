@@ -1,6 +1,7 @@
 stages:
   - validate
   - plan
+  - apply
   - configure
 
 
@@ -29,6 +30,13 @@ plan:
   artifacts:
     paths:
       - tfplan
+
+apply:
+  stage: apply
+  script:
+    - terraform apply -auto-approve tfplan
+  dependencies:
+    - plan      
 
 Deploy-to-EKS:
   image: 
