@@ -15,22 +15,17 @@ stages:
   - configure
   - destroy
 
-# List of variables
 variables:
-  TF_DIR: ${CI_PROJECT_DIR}       # Directory in which terraform files are kept
-  TF_STATE_NAME: "default"         # Name of terraform state used in "terraform init"command
-  address : "https://gitlab.com/api/v4/projects/55471835/terraform/state/$TF_STATE_NAME"
+  TF_DIR: ${CI_PROJECT_DIR}/terraform
+  STATE_NAME: "default"
+  ADDRESS: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${STATE_NAME}"
+
 
 before_script:
   - terraform --version
   - export GITLAB_ACCESS_TOKEN=$TOKEN
   - cd ${TF_DIR}            # To get inside the working directory
-  - terraform init --reconfigure 
-  - backend-config="address=https://gitlab.com/api/v4/projects/55471835/terraform/state/$TF_STATE_NAME" 
-  - backend-config="lock_address=https://gitlab.com/api/v4/projects/55471835/terraform/state/$TF_STATE_NAME/lock" 
-  - backend-config="lock_method=POST" 
-  - backend-config="unlock_method=DELETE" 
-  - backend-config="retry_wait_min=5"
+  - terraform init  -reconfigure -backend-config="address=${ADDRESS}" -backend-config="lock_address=${ADDRESS}/lock" -backend-config="unlock_address=${ADDRESS}/lock" -backend-config="username=<UseName>" -backend-config="password=$GITLAB_ACCESS_TOKEN" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
   - rm -rf .terraform
   - terraform --version
   - terraform fmt
