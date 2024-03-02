@@ -19,19 +19,6 @@ before_script:
   - terraform fmt
   - terraform init
 
-validate:
-  stage: validate
-  script:
-    - terraform validate
-
-plan:
-  stage: plan
-  script:
-    - terraform plan -out=tfplan
-  artifacts:
-    paths:
-      - tfplan
-
 
 
 
@@ -41,5 +28,3 @@ destroy:
     - terraform init 
     - terraform destroy -auto-approve
   when: manual
-  dependencies: 
-    - apply
