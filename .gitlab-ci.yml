@@ -17,11 +17,10 @@ before_script:
   - rm -rf .terraform
   - terraform --version
   - terraform fmt
-  - terraform init
-  - PROJECT_ID="55471835"
-  - TF_USERNAME="Iam-Manishkumar"
-  - TF_PASSWORD="glpat-PYhtGsc_fgSqky2Wsfd5"
-  - TF_ADDRESS="https://gitlab.com/api/v4/projects/$55471835/terraform/state/eks”
+  - export PROJECT_ID="55471835"
+  - export TF_USERNAME="Iam-Manishkumar"
+  - export TF_PASSWORD="glpat-PYhtGsc_fgSqky2Wsfd5"
+  - export TF_ADDRESS="https://gitlab.com/api/v4/projects/$55471835/terraform/state/eks”
   - cd ${TF_DIR}            # To get inside the working directory
   - terraform init --reconfigure\
       -backend-config=address=${TF_ADDRESS} \
@@ -76,8 +75,7 @@ Deploy-to-EKS:
 destroy:
   stage: destroy
   script:
-    - terraform init 
     - terraform destroy -auto-approve
-  when: manual
+  when: always
   dependencies: 
     - apply
