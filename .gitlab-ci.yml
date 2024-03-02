@@ -16,7 +16,7 @@ stages:
   - destroy
 
 variables:
-  TF_DIR: ${CI_PROJECT_DIR}/terraform
+  TF_DIR: ${CI_PROJECT_DIR}
   STATE_NAME: "default"
   ADDRESS: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${STATE_NAME}"
 
