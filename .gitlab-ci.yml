@@ -15,8 +15,7 @@ stages:
 
 variables:
   - TF_DIR: ${CI_PROJECT_DIR}       # Directory in which terraform files are kept
-  - STATE_NAME: "tf_state"          # Name of terraform state used in "terraform init"command
-  - TF_ADDRESS: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/${STATE_NAME}"
+  - TF_ADDRESS: "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/terraform/state/eks"
 
 
 before_script:
