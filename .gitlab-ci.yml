@@ -26,9 +26,8 @@ before_script:
   - terraform --version
   - terraform fmt
   - export GITLAB_ACCESS_TOKEN=$TOKEN
-  - cd ${TF_DIR}            # To get inside the working directory
-  - terraform init  -reconfigure -backend-config="address=${ADDRESS}" -backend-config="lock_address=${ADDRESS}/lock" -backend-config="unlock_address=${ADDRESS}/lock" -backend-config="username=Iam-Manishkumar" -backend-config="password=$GITLAB_ACCESS_TOKEN"  -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
-
+  - cd ${TF_DIR}
+  - terraform init -backend-config="address=https://gitlab.com/api/v4/projects/55471835/terraform/state/$TF_STATE_NAME" -backend-config="lock_address=https://gitlab.com/api/v4/projects/55471835/terraform/state/$TF_STATE_NAME/lock" -backend-config="unlock_address=https://gitlab.com/api/v4/projects/55471835/terraform/state/$TF_STATE_NAME/lock" -backend-config="username=Iam-Manishkumar" -backend-config="password=$GITLAB_ACCESS_TOKEN" -backend-config="lock_method=POST" -backend-config="unlock_method=DELETE" -backend-config="retry_wait_min=5"
 
 validate:
   stage: validate
