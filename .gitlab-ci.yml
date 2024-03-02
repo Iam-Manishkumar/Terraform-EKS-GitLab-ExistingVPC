@@ -20,7 +20,7 @@ before_script:
   - export PROJECT_ID="55471835"
   - export TF_USERNAME="Iam-Manishkumar"
   - export TF_PASSWORD="glpat-PYhtGsc_fgSqky2Wsfd5"
-  - export TF_ADDRESS="https://gitlab.com/api/v4/projects/$55471835/terraform/state/eks”
+  - export TF_ADDRESS="https://gitlab.com/api/v4/projects/$55471835/terraform/state/tf_state"
   - cd ${TF_DIR}            # To get inside the working directory
   - terraform init --reconfigure\
       -backend-config=address=${TF_ADDRESS} \
