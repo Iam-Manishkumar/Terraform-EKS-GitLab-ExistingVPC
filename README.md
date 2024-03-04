@@ -1,3 +1,7 @@
+-> TF state at TF 
+-> Create pat from preferences 
+-> Modify the yaml and provider
+
 
 Elastic Kubernetes-AWS within existing VPC network and Subnets
 
@@ -52,3 +56,6 @@ kubectl -n argocd patch secret argocd-secret \
     "admin.passwordMtime": "'$(date +%FT%T%Z)'"
   }}'
 K
+
+To delete instance profile:
+aws iam delete-instance-profile --instance-profile-name eks-master
